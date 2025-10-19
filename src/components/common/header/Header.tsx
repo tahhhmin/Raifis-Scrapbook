@@ -15,20 +15,14 @@ export default function Header() {
     // All pages
     const pages: { path: string; label: string }[] = [
         { path: "/", label: "Home" },
-
         { path: "/calendar", label: "Calendar" },
         { path: "/our-timeline", label: "Our Timeline" },
-
         { path: "/movie-list", label: "Movie List" },
         { path: "/music-playlists", label: "Music Playlists" },
-
         { path: "/letter-box", label: "Letter Box" },
-
-        { path: "/bucketlist", label: "bucketlist" },
+        { path: "/bucketlist", label: "Bucketlist" },
         { path: "/date-ideas-list", label: "Date Ideas List" },
-
         { path: "/random-decider", label: "Spinwheel / RPS" },
-        
     ];
 
     // Current page
@@ -52,7 +46,9 @@ export default function Header() {
                     </button>
                 </div>
 
-                <Link href='/' className={styles.title}><p>Raifi's Space</p></Link>
+                <Link href="/" className={styles.title}>
+                    <p>Raifi&apos;s Space</p>
+                </Link>
             </div>
 
             {expanded && (

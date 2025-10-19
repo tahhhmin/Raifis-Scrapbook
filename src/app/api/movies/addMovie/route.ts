@@ -1,3 +1,4 @@
+// src/app/api/movies/addMovie/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/connectDB";
 import Movie from "@/models/Movie";
@@ -27,7 +28,7 @@ export async function POST(req: NextRequest) {
         rating = data.Ratings?.[0]?.Value || undefined;
         thumbnail = data.Poster !== "N/A" ? data.Poster : undefined;
       }
-    } catch (err) {
+    } catch (err: unknown) {
       console.error("OMDb fetch failed:", err);
     }
 
@@ -40,8 +41,9 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json(newMovie, { status: 201 });
-  } catch (err: any) {
-    console.error("Error adding movie:", err);
-    return NextResponse.json({ message: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "An unknown error occurred";
+    console.error("Error adding movie:", message);
+    return NextResponse.json({ message }, { status: 500 });
   }
 }

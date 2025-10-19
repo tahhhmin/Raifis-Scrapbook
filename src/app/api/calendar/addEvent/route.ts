@@ -34,8 +34,10 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json(newEvent, { status: 201 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error creating event:", error);
-    return NextResponse.json({ message: error.message }, { status: 500 });
+    const message =
+      error instanceof Error ? error.message : "An unknown error occurred";
+    return NextResponse.json({ message }, { status: 500 });
   }
 }

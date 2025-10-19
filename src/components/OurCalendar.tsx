@@ -34,10 +34,9 @@ export default function OurCalendar() {
   const [editRepeat, setEditRepeat] = useState<"none" | "monthly" | "yearly">("none");
   const [editMilestone, setEditMilestone] = useState(false);
 
-  // Fetch events from backend
   const fetchEvents = async () => {
     const res = await fetch("/api/calendar/getEvents");
-    const data = await res.json();
+    const data: Event[] = await res.json();
     setEvents(data);
   };
 
@@ -45,11 +44,8 @@ export default function OurCalendar() {
     fetchEvents();
   }, []);
 
-  // Add new event
   const handleAddEvent = async () => {
     if (!newTitle || !newDate) return;
-
-    console.log({ newTitle, newDate, newRepeat, newMilestone }); // Debug
 
     const res = await fetch("/api/calendar/addEvent", {
       method: "POST",
@@ -62,7 +58,7 @@ export default function OurCalendar() {
         isMilestone: newMilestone,
       }),
     });
-    const data = await res.json();
+    const data: Event = await res.json();
     setEvents([...events, data]);
     setNewTitle("");
     setNewDate("");
@@ -70,7 +66,6 @@ export default function OurCalendar() {
     setNewMilestone(false);
   };
 
-  // Delete event
   const handleDeleteEvent = async (id: string) => {
     await fetch("/api/calendar/deleteEvent", {
       method: "DELETE",
@@ -80,7 +75,6 @@ export default function OurCalendar() {
     setEvents(events.filter((e) => e._id !== id));
   };
 
-  // Add note
   const handleAddNote = async (eventId: string) => {
     const text = noteText[eventId];
     if (!text) return;
@@ -90,12 +84,11 @@ export default function OurCalendar() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ eventId, text, addedBy: "Annafi" }),
     });
-    const updatedEvent = await res.json();
+    const updatedEvent: Event = await res.json();
     setEvents(events.map((e) => (e._id === eventId ? updatedEvent : e)));
     setNoteText({ ...noteText, [eventId]: "" });
   };
 
-  // Edit event
   const handleEditEvent = async (id: string) => {
     const res = await fetch("/api/calendar/editEvent", {
       method: "PUT",
@@ -108,7 +101,7 @@ export default function OurCalendar() {
         isMilestone: editMilestone,
       }),
     });
-    const updatedEvent = await res.json();
+    const updatedEvent: Event = await res.json();
     setEvents(events.map((e) => (e._id === id ? updatedEvent : e)));
     setEditingEventId(null);
   };
@@ -130,7 +123,12 @@ export default function OurCalendar() {
           value={newDate}
           onChange={(e) => setNewDate(e.target.value)}
         />
-        <select value={newRepeat} onChange={(e) => setNewRepeat(e.target.value as any)}>
+        <select
+          value={newRepeat}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+            setNewRepeat(e.target.value as "none" | "monthly" | "yearly")
+          }
+        >
           <option value="none">No Repeat</option>
           <option value="monthly">Repeat Monthly</option>
           <option value="yearly">Repeat Yearly</option>
@@ -162,7 +160,12 @@ export default function OurCalendar() {
                     value={editDate}
                     onChange={(e) => setEditDate(e.target.value)}
                   />
-                  <select value={editRepeat} onChange={(e) => setEditRepeat(e.target.value as any)}>
+                  <select
+                    value={editRepeat}
+                    onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                      setEditRepeat(e.target.value as "none" | "monthly" | "yearly")
+                    }
+                  >
                     <option value="none">No Repeat</option>
                     <option value="monthly">Repeat Monthly</option>
                     <option value="yearly">Repeat Yearly</option>

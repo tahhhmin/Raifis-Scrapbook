@@ -25,22 +25,18 @@ export default function EventCountdown() {
     const res = await fetch("/api/calendar/getEvents");
     const data: Event[] = await res.json();
 
-    const today = new Date();
-
     // Filter repeat events and calculate next occurrence
     const repeatEvents: UpcomingEvent[] = data
       .filter((e) => e.repeat && e.repeat !== "none")
       .map((e) => {
-        let eventDate = new Date(e.date);
         const now = new Date();
+        const eventDate = new Date(e.date); // ✅ const instead of let
 
         if (e.repeat === "monthly") {
-          // Move to current or next month
           eventDate.setFullYear(now.getFullYear());
           eventDate.setMonth(now.getMonth());
           if (eventDate < now) eventDate.setMonth(now.getMonth() + 1);
         } else if (e.repeat === "yearly") {
-          // Move to current or next year
           eventDate.setFullYear(now.getFullYear());
           if (eventDate < now) eventDate.setFullYear(now.getFullYear() + 1);
         }
@@ -66,7 +62,8 @@ export default function EventCountdown() {
     fetchEvents();
   }, []);
 
-  if (events.length === 0) return <div className={styles.container}>No repeat events found.</div>;
+  if (events.length === 0)
+    return <div className={styles.container}>No repeat events found.</div>;
 
   return (
     <div className={styles.container}>

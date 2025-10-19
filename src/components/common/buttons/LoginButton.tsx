@@ -1,6 +1,7 @@
 "use client";
 
 import { signIn, signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 
 export default function LoginButton() {
   const { data: session, status } = useSession();
@@ -13,10 +14,12 @@ export default function LoginButton() {
     return (
       <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
         {session.user?.image && (
-          <img
+          <Image
             src={session.user.image}
             alt={session.user.name || "Profile"}
-            style={{ width: 32, height: 32, borderRadius: "50%" }}
+            width={32}
+            height={32}
+            style={{ borderRadius: "50%" }}
           />
         )}
         <span>{session.user?.name}</span>

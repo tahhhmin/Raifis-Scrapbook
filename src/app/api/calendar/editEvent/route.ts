@@ -1,4 +1,4 @@
-// app/api/calendar/editEvent/route.ts
+// src/app/api/calendar/editEvent/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/connectDB";
 import Event from "@/models/Event";
@@ -41,8 +41,10 @@ export async function PUT(req: NextRequest) {
     }
 
     return NextResponse.json(updatedEvent, { status: 200 });
-  } catch (error: any) {
-    console.error("Error editing event:", error);
-    return NextResponse.json({ message: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const message =
+      error instanceof Error ? error.message : "An unknown error occurred";
+    console.error("Error editing event:", message);
+    return NextResponse.json({ message }, { status: 500 });
   }
 }

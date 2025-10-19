@@ -1,3 +1,4 @@
+// src/app/api/movies/addMovieReview/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/connectDB";
 import Movie from "@/models/Movie";
@@ -22,8 +23,9 @@ export async function POST(req: NextRequest) {
     await movie.save();
 
     return NextResponse.json(movie, { status: 200 });
-  } catch (err: any) {
-    console.error(err);
-    return NextResponse.json({ message: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "An unknown error occurred";
+    console.error("Error adding review:", message);
+    return NextResponse.json({ message }, { status: 500 });
   }
 }

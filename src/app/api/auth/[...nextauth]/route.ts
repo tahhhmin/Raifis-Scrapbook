@@ -6,15 +6,23 @@ import mongoose from "mongoose";
 import connectDB from "@/lib/connectDB";
 import { MongoClient } from "mongodb";
 
-// Ensure we have a Promise<MongoClient> for the adapter
+// Helper to get MongoClient safely
+let cachedClient: MongoClient | null = null;
 async function getClientPromise(): Promise<MongoClient> {
+  if (cachedClient) return cachedClient;
+
   await connectDB();
-  // @ts-ignore getClient exists on mongoose.connection
-  return mongoose.connection.getClient() as MongoClient;
+
+  const client = mongoose.connection.getClient?.();
+  if (!client) throw new Error("MongoClient not available on mongoose.connection");
+
+  // Cast via unknown to avoid TS version conflict
+  cachedClient = client as unknown as MongoClient;
+  return cachedClient;
 }
 
 export const authOptions: AuthOptions = {
-  adapter: MongoDBAdapter(getClientPromise()), // use a Promise<MongoClient>
+  adapter: MongoDBAdapter(getClientPromise()), // pass Promise<MongoClient>
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -22,11 +30,10 @@ export const authOptions: AuthOptions = {
     }),
   ],
   session: {
-    strategy: "jwt", // using JWT for session
+    strategy: "jwt",
   },
   callbacks: {
     async session({ session, token }) {
-      // token.sub contains the user ID when using JWT sessions
       return {
         ...session,
         user: {
@@ -36,7 +43,7 @@ export const authOptions: AuthOptions = {
       } as Session & { user: { id: string | null } };
     },
   },
-  debug: false, // you can set to true for dev
+  debug: false,
 };
 
 const handler = NextAuth(authOptions);

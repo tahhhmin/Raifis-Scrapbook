@@ -3,7 +3,7 @@ import styles from './page.module.css'
 
 export default function page() {
     return (
-        <main>
+        <main className={styles.main}>
             <h1>TImeline</h1>
         </main>
     )

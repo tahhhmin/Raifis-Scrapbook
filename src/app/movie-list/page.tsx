@@ -4,7 +4,7 @@ import MovieList from '@/components/MovieList'
 
 export default function page() {
     return (
-        <main>
+        <main className={styles.main}>
             <h1>Movie List</h1>
             <MovieList />
         </main>
