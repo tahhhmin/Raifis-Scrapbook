@@ -11,8 +11,6 @@ interface TimeTogether {
 }
 
 export default function DaysCounter() {
-  const startDate = new Date("2024-12-08T17:53:00");
-
   const [timeTogether, setTimeTogether] = useState<TimeTogether>({
     days: 0,
     hours: 0,
@@ -21,6 +19,8 @@ export default function DaysCounter() {
   });
 
   useEffect(() => {
+    const startDate = new Date("2024-12-08T17:53:00"); // moved inside useEffect
+
     const interval = setInterval(() => {
       const now = new Date();
       const diff = now.getTime() - startDate.getTime();
@@ -34,7 +34,7 @@ export default function DaysCounter() {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [startDate]); // ✅ include startDate here
+  }, []); // ✅ empty dependency array
 
   return (
     <div className={styles.counterContainer}>

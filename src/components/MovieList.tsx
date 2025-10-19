@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 import style from "./MovieList.module.css";
 
 interface Review {
@@ -117,7 +118,15 @@ export default function MovieList() {
       <div className={style.movieList}>
         {toWatchMovies.map((movie) => (
           <div key={movie._id} className={style.movieCard}>
-            {movie.thumbnail && <img src={movie.thumbnail} alt={movie.title} />}
+            {movie.thumbnail && (
+              <Image
+                src={movie.thumbnail}
+                alt={movie.title}
+                width={100}
+                height={150}
+                className={style.thumbnail}
+              />
+            )}
             <div className={style.movieInfo}>
               <h4>{movie.title}</h4>
               {movie.rating && <p>Rating: {movie.rating}</p>}
@@ -133,7 +142,15 @@ export default function MovieList() {
       <div className={style.movieList}>
         {watchedMovies.map((movie) => (
           <div key={movie._id} className={style.movieCard}>
-            {movie.thumbnail && <img src={movie.thumbnail} alt={movie.title} />}
+            {movie.thumbnail && (
+              <Image
+                src={movie.thumbnail}
+                alt={movie.title}
+                width={100}
+                height={150}
+                className={style.thumbnail}
+              />
+            )}
             <div className={style.movieInfo}>
               <h4>{movie.title}</h4>
               {movie.rating && <p>Rating: {movie.rating}</p>}
