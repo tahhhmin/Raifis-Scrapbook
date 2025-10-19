@@ -1,0 +1,8 @@
+.main {
+    margin: 0 1rem 1rem 1rem;
+}
+
+.smth {
+    border: 1.5px solid var(--color-primary);
+    padding: 0.5rem 1rem;
+}

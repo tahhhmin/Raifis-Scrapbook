@@ -1,0 +1,66 @@
+/* Header.module.css */
+
+.header {
+    display: flex;
+    flex-direction: column; /* allow expanded menu below */
+    border: 1.5px solid var(--color-primary);
+    padding: 0.5rem 1rem;
+    border-bottom: none;
+    margin: 1rem 1rem 0 1rem;
+}
+
+.topRow {
+    display: flex;
+    justify-content: space-between; /* navigator left, title right */
+    align-items: center;
+}
+
+.navigator {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.navButton {
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    border: none;
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--color-primary);
+
+}
+
+.expandedMenu {
+    display: flex;
+    flex-direction: column; /* stack options vertically */
+    margin-top: 0.5rem;
+}
+
+.menuButton {
+    background: none;
+    border: none;
+    padding: 0.25rem 0;
+    text-align: left;
+    cursor: pointer;
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--color-primary);
+}
+.menuButton:hover {
+    color: var(--color-accent); /* change text color on hover */
+    transform: translateX(4px); /* slight slide effect */
+    transition: color 0.2s ease, transform 0.2s ease; /* smooth animation */
+}
+
+.navButton:hover {
+    color: var(--color-accent);
+    transform: translateX(4px);
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+.title {
+    text-decoration: none;
+    color: var(--color-primary);
+}

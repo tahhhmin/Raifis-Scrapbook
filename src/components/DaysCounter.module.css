@@ -1,0 +1,20 @@
+.counterContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    border: 1.5px solid var(--color-primary);
+    padding: 0.5rem 1rem;
+    border-bottom: none;
+}
+.counter {
+    display: inline-flex;
+    flex-direction: row;
+    gap: 0.35rem;
+}
+.time {
+    margin: auto 0;
+}
+
+.days {
+    font-weight: 600;
+}
