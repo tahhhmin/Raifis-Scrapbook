@@ -47,7 +47,7 @@ export default function Header() {
                 </div>
 
                 <Link href="/" className={styles.title}>
-                    <p>Raifi&apos;s Space</p>
+                    <p>Raifi&apos;s Scrapbook</p>
                 </Link>
             </div>
 

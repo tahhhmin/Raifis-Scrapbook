@@ -18,7 +18,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
     title: "Raifi's Scrapbook",
-    description: "Official website of Amra Ekshathe",
+    description: "Our website<3",
     icons: {
         icon: "/favicon.ico",
         shortcut: "#",
