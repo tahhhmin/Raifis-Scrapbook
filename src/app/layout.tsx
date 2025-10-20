@@ -7,12 +7,12 @@ import HeaderLayout from "@/components/common/header/HeaderLayout";
 import "./styles/globals.css"
 
 const lora = Lora({
-    variable: "--font-heading",
+    variable: "--font-primary",
     subsets: ["latin"],
 });
 
 const inter = Inter({
-    variable: "--font-body",
+    variable: "--font-secondary",
     subsets: ["latin"],
 });
 

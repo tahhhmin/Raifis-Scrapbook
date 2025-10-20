@@ -1,0 +1,40 @@
+.ourBlend {
+    margin: 0 1rem;
+    border: 1.5px solid var(--color-primary);
+    padding: 0.5rem 1rem;
+    border-bottom: none;
+}
+.playlistList, .addPlaylistContainer  {
+    margin: 0 1rem;
+    border: 1.5px solid var(--color-primary);
+    padding: 0.5rem 1rem;    
+}
+.playlistList {
+    margin-top: 1rem;
+}
+.ourBlend {
+    display: flex;
+    justify-content: space-between;
+}
+.ourBlendTitle {
+    margin: auto 0;
+}
+.addPlaylistTitleContainer {
+    display: flex;
+    justify-content: space-between;
+}
+.icon {
+    color: var(--color-primary);
+}
+.playlistHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.playlistName {
+    margin: auto 0;
+}
+
+.playlistButtons {
+    display: flex;
+}

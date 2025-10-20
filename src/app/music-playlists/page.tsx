@@ -2,6 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import styles from "./page.module.css";
+import Link from "next/link";
+import Button from "@/components/common/buttons/Button";
+import { Plus } from "lucide-react";
 
 interface Playlist {
   _id: string;
@@ -16,6 +19,7 @@ export default function PlaylistsPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editName, setEditName] = useState("");
   const [editUrl, setEditUrl] = useState("");
+  const [showAddForm, setShowAddForm] = useState(false); // 👈 new state
 
   const OUR_BLEND = {
     name: "Our Blend",
@@ -43,6 +47,7 @@ export default function PlaylistsPage() {
     setPlaylists([data, ...playlists]);
     setNewName("");
     setNewUrl("");
+    setShowAddForm(false); // 👈 hide form after adding
   };
 
   const handleEditPlaylist = async (id: string) => {
@@ -67,31 +72,43 @@ export default function PlaylistsPage() {
 
   return (
     <div className={styles.container}>
-      <h1>🎵 Music Playlists</h1>
-
       {/* Our Blend link at top */}
       <div className={styles.ourBlend}>
-        <h3>{OUR_BLEND.name}</h3>
-        <a href={OUR_BLEND.url} target="_blank" rel="noopener noreferrer">
-          Open in Spotify
-        </a>
+        <p className={styles.ourBlendTitle}>Our Spotify Blend</p>
+        <Link href={OUR_BLEND.url} target="_blank" rel="noopener noreferrer">
+          <Button variant="primary" label="Open Spotify" size="medium" showIcon />
+        </Link>
       </div>
 
-      {/* Add Playlist */}
-      <div className={styles.addPlaylist}>
-        <input
-          type="text"
-          placeholder="Playlist Name"
-          value={newName}
-          onChange={(e) => setNewName(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Spotify URL"
-          value={newUrl}
-          onChange={(e) => setNewUrl(e.target.value)}
-        />
-        <button onClick={handleAddPlaylist}>Add Playlist</button>
+      {/* Add Playlist Section */}
+      <div className={styles.addPlaylistContainer}>
+        <div className={styles.addPlaylistTitleContainer}>
+          <p>Add New Playlist</p>
+          <Plus
+            className={styles.icon}
+            onClick={() => setShowAddForm((prev) => !prev)} // 👈 toggle
+            style={{ cursor: "pointer" }}
+          />
+        </div>
+
+        {/* Conditionally show form */}
+        {showAddForm && (
+          <div className={styles.addPlaylistInputs}>
+            <input
+              type="text"
+              placeholder="Playlist Name"
+              value={newName}
+              onChange={(e) => setNewName(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Spotify URL"
+              value={newUrl}
+              onChange={(e) => setNewUrl(e.target.value)}
+            />
+            <button onClick={handleAddPlaylist}>Add Playlist</button>
+          </div>
+        )}
       </div>
 
       {/* Playlist List */}
@@ -107,20 +124,34 @@ export default function PlaylistsPage() {
               </>
             ) : (
               <>
-                <h3>{playlist.name}</h3>
-                <a href={playlist.url} target="_blank" rel="noopener noreferrer">
-                  Open in Spotify
-                </a>
-                <button
-                  onClick={() => {
-                    setEditingId(playlist._id);
-                    setEditName(playlist.name);
-                    setEditUrl(playlist.url);
-                  }}
-                >
-                  ✏️ Edit
-                </button>
-                <button onClick={() => handleDeletePlaylist(playlist._id)}>❌ Delete</button>
+              <div className={styles.playlistHeader}>
+                <p className={styles.playlistName}>{playlist.name}</p>
+                <Link href={playlist.url} target="_blank" rel="noopener noreferrer">
+                    <Button variant="primary" label="Open Spotify" size="medium" showIcon />
+                </Link>
+                </div>
+
+                <div className={styles.playlistButtons}>
+  <Button
+    variant="outlined"
+    showIcon
+    icon="Pencil"
+    label="Edit"
+    onClick={() => {
+      setEditingId(playlist._id);
+      setEditName(playlist.name);
+      setEditUrl(playlist.url);
+    }}
+  />
+
+  <Button
+    variant="danger-icon"
+    showIcon
+    icon="Trash"
+    onClick={() => handleDeletePlaylist(playlist._id)}
+    aria-label="Delete playlist"
+  />
+</div>
               </>
             )}
           </div>
